@@ -31,19 +31,23 @@ type User {
         password: String
         age: Int!
         age_range: Int
-        gender: GENDER! # all caps because it's an ENUM
-        looking_for: [GENDER]
+        sex: GENDER! # all caps because it's an ENUM
+        interested_in: [GENDER]
         likes: [User]
         matches: [User]
         rejected: [User]
         photo: String
+        token: String
         is_active: Boolean
 }
+
+
 
 enum GENDER {
         M
         F
-        T
+        TW
+        TM
         N
         A
 }
@@ -55,8 +59,8 @@ input UserAdd{
         password: String!
         age: Int!
         age_range: Int! # datos requeridos para crear un usuario
-        gender: GENDER! 
-        looking_for: [GENDER]!
+        sex: GENDER! 
+        interested_in: [GENDER]!
         photo: String
 }
 
@@ -67,8 +71,8 @@ input UserUpdate {
         password: String
         age: Int
         age_range: Int
-        gender: GENDER # all caps because it's an ENUM
-        looking_for: [GENDER]
+        sex: GENDER # all caps because it's an ENUM
+        interested_in:[GENDER]
         photo: String
         is_active: Boolean
 }

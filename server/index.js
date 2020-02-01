@@ -4,8 +4,10 @@ const { importSchema } = require('graphql-import');
 const resolvers = require('./resolvers');
 const verifyToken = require('./utils/verifyToken');
 const AuthDirective = require('./resolvers/Directives/AuthDirective');
+const { makeExecutableSchema } = require('graphql-tools')
 
 const typeDefs = importSchema(__dirname + '/schema.graphql');
+//const typeDefs = importSchema('./server/schema.graphql');
 
 const MONGO_URI= 'mongodb+srv://user1:RjOpupDHlf8xw6oe@cluster0-gknq4.gcp.mongodb.net/meetupclone?retryWrites=true&w=majority'
 
@@ -15,13 +17,17 @@ const mongo = mongoose.connection;
 
 mongo.on('error', (error) => console.log(error)).once('open',()=>console.log('Connected to database'));
 
-const server = new ApolloServer({
+const schema = makeExecutableSchema({
     typeDefs, 
     resolvers,
     schemaDirectives:{
         auth:AuthDirective // pasando la directiva a Apollo para que se pueda usar en el schema.graphql (auth is the label we have given it)
     },
-    context: ({req}) => verifyToken(req) // this will return the token of the user making the request, and adding it as a "context" to the query
+});
+
+const server = new ApolloServer({
+    schema,
+    context: async ({req}) => await verifyToken(req) // this will return the token of the user making the request, and adding it as a "context" to the query
 })
 
 

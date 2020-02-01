@@ -4,15 +4,12 @@ const bcrypt = require ('bcrypt');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema ({
-	name: {
-		first: {type:String, required: true},
-		middle: String,
-		last: {type:String, required: true}
-	},
+	first_name: {type:String, required: true},
+	last_name: {type:String, required: true},
 	email: {type:String, required: true},
 	password: {type: String, required: true},
-	age: {type: Number, required: true, min: 18},
-	age_range: {type: Number, default: 15, min: 2},
+	age: {type: Number, required: true, min: 45},
+	age_range: {type: Number, default: 15, min: 5},
 	location: String,	
 	sex: {
 		type: String,

@@ -142,3 +142,16 @@ mutation{
   }
 }
 */
+
+/*
+{
+        "_id": "5e34f127ce2782152c796a5a",
+        "email": "edwin2@devf.mx",
+        "first_name": "yidah",
+        "last_name": "curiel",
+        "is_active": true
+      }
+
+   pswd: "123456"
+   toke: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlMzRmMTI3Y2UyNzgyMTUyYzc5NmE1YSIsImVtYWlsIjoiZWR3aW4yQGRldmYubXgiLCJmaXJzdF9uYW1lIjoieWlkYWgiLCJpYXQiOjE1ODA1Mjg1MjIsImV4cCI6MTU4MDYxNDkyMn0.nzbXEtbDNoQgi6p958v3ue5mGCud2uN8t2Yuuwz7R3o",
+*/
