@@ -4,12 +4,18 @@ const bcrypt = require ('bcrypt');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema ({
-	first_name: {type:String, required: true},
-	last_name: {type:String, required: true},
+	name: {
+		first: {type:String, required: true},
+		middle: String,
+		last: String
+	},
 	email: {type:String, required: true},
 	password: {type: String, required: true},
 	age: {type: Number, required: true, min: 45},
-	age_range: {type: Number, default: 15, min: 5},
+	age_range: {
+		min: {type: Number, default: 45} ,
+		max: {type: Number, default: 120}
+	},
 	location: String,	
 	sex: {
 		type: String,
@@ -19,6 +25,7 @@ const UserSchema = new Schema ({
         type: [String],
 		enum: ['M','F','TW','TM','N','A']
 	},
+	interests: [{type: Schema.Types.ObjectId, ref: 'interests'}],
 	likes:[{type: Schema.Types.ObjectId, ref: 'users'}],
 	matches:[{type: Schema.Types.ObjectId, ref: 'users'}],
 	rejects:[{type: Schema.Types.ObjectId, ref: 'users'}],

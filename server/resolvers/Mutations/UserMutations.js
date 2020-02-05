@@ -6,24 +6,32 @@ const { createUser,
 	addLikeToUser,
 	addMatchToBothUsers,
 	addRejectedToBothUsers,
-	removeMatchFromBothUsers} = require ('../../services/UserServices');
+	rejectUserMatch} = require ('../../services/UserServices');
 const authenticate = require ('../../utils/authenticate');
 
 const processUserLikes = async(root,args,context,info) => {
-    if (likedByThisUser(context.user._id, args.id)) {
-        await addMatchToBothUsers(context.user._id,args.id);
-        return {code: 200, message: 'Match created succesfully'};
+    const user = context.user._id ? context.user._id : args.id;
+    const userLiked = args.userLiked;
+
+    if (!user) throw Error ("Please login to start liking users");
+
+    if (likedByThisUser(user, userLiked)) {
+        await addLikeToUser(user, userLiked);
+        return addMatchToBothUsers(user,userLiked);
     }
-    await addLikeToUser(context.user._id, args.id);
-    return {code: 200, message: 'Like added successfully'}
+    return addLikeToUser(user, userLiked);
 }
 
 const processUserRejections = async(root,args,context,info) => {
-    if (matchedWithThisUser(context.user._id, args.id)) {
-        await removeMatchFromBothUsers(context.user._id,args.id);
+    const user = context.user ? context.user : await getUserByID(args.id);
+    const userRejected = args.userRejected;
+
+    if (!user) throw Error ("Please login to start rejecting users");
+
+    if (user.matches.contains(userRejected)) {
+        return rejectUserMatch(user._id,userRejected);
     }
-    await addRejectedToBothUsers(context.user._id,args.id);
-    return {code: 200, message: 'User rejected successfully'}
+    return addRejectedToBothUsers(user._id,userRejected);
 }
 
 const newUser = (root,args,context,info) => {
@@ -38,12 +46,12 @@ const login = async(root, args) => {
 	};
 }
 
-const updateUser = async(_, args) => {
-    await updateUserByID(args.id, args.data);
-	return getUserByID(args.id)
+const updateUser = async(_, args, context) => {
+    await updateUserByID(context.user._id, args.data);
+	return getUserByID(context.user._id)
 }
 
-const deleteUser = async(_,args) => {
+const deleteUser = async(_,args,context) => {
 	await deleteUserByID(context.user._id);
 	return {
 		code: 204,
@@ -51,9 +59,10 @@ const deleteUser = async(_,args) => {
 	}
 }
 
+
 module.exports = {
-  //processUserLikes,
-  //processUserRejections,
+  processUserLikes,
+  processUserRejections,
   newUser,
 	login,
 	updateUser,
@@ -64,31 +73,29 @@ module.exports = {
 /*
 sample mutation request:
 
-mutation createUser($Userdata:UserAdd!) {
+mutation createUser($Userdata:UserAdd!){
   newUser(data:$Userdata){
     _id
-    first_name
-    last_name
-    email
+  	name {first,last}
     password
     age
-    age_range
-    gender
-    looking_for
+    age_range {min, max}
+    sex
+    interested_in
   }
+  
 }
 
 query variables:
 {
   "Userdata": {
-    "email":"beavisc@gmail.com",
-    "first_name": "yidah",
-    "last_name": "curiel",
-    "password": "123456",
-    "gender": "F",
-    "looking_for": ["F"],
+    "email": "melissa@gmail.com",
+		"name": {"first": "melissa", "last": "rodriguez"},
     "age": 50,
-    "age_range": 10
+    "age_range": {"min": 40, "max": 60},
+    "password": "123456",
+    "sex": "M",
+    "interested_in": "F"
   }
 }
 */
@@ -98,47 +105,22 @@ response:
 {
   "data": {
     "newUser": {
-      "_id": "5e337f28afb4641bc4fcb691",
-      "first_name": "yidah",
-      "last_name": "curiel",
-      "email": "beavisc@gmail.com",
-      "password": "$2b$10$HVRp8lX.bAJdyM3Dt7rBX.ey6pDGf8njvXoiXux7vIZrBjA/L9ZBe",
+      "_id": "5e3a5b249454e7210479a5b6",
+      "name": {
+        "first": "melissa",
+        "last": "rodriguez"
+      },
+      "password": "$2b$10$iAYW/j/xbXI4UQ8.WTVUYOP5Shos.quqCySAdOcVpRvVixBw5o.Pi",
       "age": 50,
-      "age_range": 10,
-      "gender": "F",
-      "looking_for": [
+      "age_range": {
+        "min": 40,
+        "max": 60
+      },
+      "sex": "M",
+      "interested_in": [
         "F"
       ]
     }
-  }
-}
-*/
-
-/*
-{
-  "data": {
-    "newUser": {
-      "_id": "5e337c14010758332cd205ba",
-      "first_name": "yidah",
-      "last_name": "curiel",
-      "email": "yidahc@yahoo.com",
-      "age": 50,
-      "age_range": 10,
-      "gender": "F",
-      "looking_for": [
-        "F"
-      ]
-    }
-  }
-}
-*/
-
-/*
-mutation{
-  login(email:"beavisc@gmail.com",
-    password:"123456"){
-    token
-    message
   }
 }
 */
