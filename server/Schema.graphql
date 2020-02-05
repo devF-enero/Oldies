@@ -3,7 +3,14 @@ directive @auth on FIELD_DEFINITION | FIELD # en la deficinicion de un nuevo cam
 type Query {
         allUsers(is_active:Boolean, gender:GENDER): [User]!
         getOneUser(id:ID, email:String): User
-        possibleMatchUsers:[User]!
+        getPossibleMatchUsers(id:ID):[User]!
+        getAllMatches(id:ID): [User]!
+        allInterests: [Interest]!
+        getOneInterest(id:ID!): Interest
+        getUsersbyAnyInterests(id:ID, interests:[ID!]): [User]!
+        getUsersbyEveryInterest(interests:[ID!]): [User]!
+        newInterest(name:String!): Interest
+        newInterestforUser(interest:ID!, id:ID): User
 }
 
 type Mutation {
@@ -11,6 +18,8 @@ type Mutation {
         login(email:String!,password:String!):Auth
         updateUser(data:UserUpdate!,id:ID!):User
         deleteUser:Message @auth
+        processUserLikes(id:ID, userLiked:ID!): User
+        processUserRejections(id:ID, userRejected:ID!): User
 }
 
 type Auth {
@@ -25,12 +34,11 @@ type Message {
 
 type User {
         _id: ID!
-        first_name: String!
-        last_name: String!
+        name: Name!
         email: String
         password: String
         age: Int!
-        age_range: Int
+        age_range: AgeRange
         sex: GENDER! # all caps because it's an ENUM
         interested_in: [GENDER]
         likes: [User]
@@ -41,7 +49,38 @@ type User {
         is_active: Boolean
 }
 
+type Interest {
+        _id: ID!
+        name: String!
+}
 
+type Name {
+        first: String
+        middle: String
+        last: String
+}
+
+input NameInput {
+        first: String!
+        middle: String
+        last: String
+}
+
+input NameUpdate {
+        first: String
+        middle: String
+        last: String
+}
+
+type AgeRange {
+        min: Int
+        max: Int
+}
+
+input AgeRangeInput {
+        min: Int
+        max: Int
+}
 
 enum GENDER {
         M
@@ -53,24 +92,22 @@ enum GENDER {
 }
 
 input UserAdd{
-        first_name: String!
-        last_name: String
+        name: NameInput!
         email: String!
         password: String!
         age: Int!
-        age_range: Int! # datos requeridos para crear un usuario
+        age_range: AgeRangeInput # datos requeridos para crear un usuario
         sex: GENDER! 
         interested_in: [GENDER]!
         photo: String
 }
 
 input UserUpdate {
-        first_name: String
-        last_name: String
+        name: NameUpdate
         email: String
         password: String
         age: Int
-        age_range: Int
+        age_range: AgeRangeInput
         sex: GENDER # all caps because it's an ENUM
         interested_in:[GENDER]
         photo: String
