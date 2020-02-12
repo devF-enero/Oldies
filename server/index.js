@@ -6,8 +6,8 @@ const verifyToken = require('./utils/verifyToken');
 const AuthDirective = require('./resolvers/Directives/AuthDirective');
 const { makeExecutableSchema } = require('graphql-tools')
 
-//const typeDefs = importSchema(__dirname + '/schema.graphql');
-const typeDefs = importSchema('./server/schema.graphql');
+const typeDefs = importSchema(__dirname + '/schema.graphql');
+//const typeDefs = importSchema('./server/schema.graphql');
 
 const MONGO_URI= 'mongodb+srv://user1:RjOpupDHlf8xw6oe@cluster0-gknq4.gcp.mongodb.net/meetupclone?retryWrites=true&w=majority'
 
@@ -27,10 +27,14 @@ const schema = makeExecutableSchema({
 
 const server = new ApolloServer({
     schema,
+    cors,
     context: async ({req}) => await verifyToken(req) // this will return the token of the user making the request, and adding it as a "context" to the query
 })
 
 
-server.listen({port:3000}).then(({url}) => {
-    console.log(`server is ready at ${url}`)
-})
+const port = process.env.PORT || 4000;
+
+
+server.listen({port}).then(({ url }) => {
+	console.log(`Server starts in : ${url}`);
+});
