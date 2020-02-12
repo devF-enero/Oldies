@@ -6,8 +6,8 @@ const verifyToken = require('./utils/verifyToken');
 const AuthDirective = require('./resolvers/Directives/AuthDirective');
 const { makeExecutableSchema } = require('graphql-tools')
 
-const typeDefs = importSchema(__dirname + '/schema.graphql');
-//const typeDefs = importSchema('./server/schema.graphql');
+//const typeDefs = importSchema(__dirname + '/schema.graphql');
+const typeDefs = importSchema('./server/schema.graphql');
 
 const MONGO_URI= 'mongodb+srv://user1:RjOpupDHlf8xw6oe@cluster0-gknq4.gcp.mongodb.net/meetupclone?retryWrites=true&w=majority'
 
