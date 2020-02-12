@@ -27,7 +27,6 @@ const schema = makeExecutableSchema({
 
 const server = new ApolloServer({
     schema,
-    cors,
     context: async ({req}) => await verifyToken(req) // this will return the token of the user making the request, and adding it as a "context" to the query
 })
 
