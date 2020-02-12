@@ -1,12 +1,12 @@
 directive @auth on FIELD_DEFINITION | FIELD # en la deficinicion de un nuevo campo
 
 type Query {
-        allUsers(is_active:Boolean, gender:GENDER): [User]!
+        allUsers(is_active:Boolean, gender:GENDER): [User]! @auth
         getOneUser(id:ID, email:String): User
         getPossibleMatchUsers(id:ID):[User]!
         getAllMatches(id:ID): [User]!
         allInterests: [Interest]!
-        getOneInterest(id:ID!): Interest
+        getOneInterest(id:ID!): Interest 
         getUsersbyAnyInterests(id:ID, interests:[ID!]): [User]!
         getUsersbyEveryInterest(interests:[ID!]): [User]!
         newInterest(name:String!): Interest
