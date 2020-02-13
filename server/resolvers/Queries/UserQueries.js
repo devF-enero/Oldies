@@ -5,6 +5,7 @@ const { getUsers, getUserByEmail, getUserByID, getMatchesByID } = require ('../.
 // info = string of your query
 
 const allUsers = (root, args, context, info) => {
+	console.log(args)
 	return getUsers(args);
 }
 

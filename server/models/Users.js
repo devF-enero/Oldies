@@ -11,12 +11,12 @@ const UserSchema = new Schema ({
 	},
 	email: {type:String, required: true},
 	password: {type: String, required: true},
-	age: {type: Number, required: true, min: 45},
+	age: {type: Number, required: true, min: 18, max: 120},
 	age_range: {
-		min: {type: Number, default: 45} ,
+		min: {type: Number, default: 18} ,
 		max: {type: Number, default: 120}
 	},
-	location: String,	
+	//location: String,	
 	sex: {
 		type: String,
 		enum: ['M','F','TW','TM','N']

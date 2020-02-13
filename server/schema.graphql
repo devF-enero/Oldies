@@ -1,11 +1,11 @@
 directive @auth on FIELD_DEFINITION | FIELD # en la deficinicion de un nuevo campo
 
 type Query {
-        allUsers(is_active:Boolean, gender:GENDER): [User]! @auth
-        getOneUser(id:ID, email:String): User
-        getPossibleMatchUsers(id:ID):[User]!
-        getAllMatches(id:ID): [User]!
-        allInterests: [Interest]!
+        allUsers(is_active:Boolean, gender:GENDER): [User]! 
+        getOneUser(id:ID, email:String): User 
+        getPossibleMatchUsers(id:ID):[User]! @auth
+        getAllMatches(id:ID): [User]! @auth
+        allInterests: [Interest]! 
         getOneInterest(id:ID!): Interest 
         getUsersbyAnyInterests(id:ID, interests:[ID!]): [User]!
         getUsersbyEveryInterest(interests:[ID!]): [User]!
@@ -16,10 +16,10 @@ type Query {
 type Mutation {
         newUser(data:UserAdd!): User
         login(email:String!,password:String!):Auth
-        updateUser(data:UserUpdate!,id:ID!):User
+        updateUser(data:UserUpdate!,id:ID!):User @auth
         deleteUser:Message @auth
-        processUserLikes(id:ID, userLiked:ID!): User
-        processUserRejections(id:ID, userRejected:ID!): User
+        processUserLikes(id:ID, userLiked:ID!): User @auth
+        processUserRejections(id:ID, userRejected:ID!): User @auth
 }
 
 type Auth {
