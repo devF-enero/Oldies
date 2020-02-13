@@ -9,7 +9,7 @@ const { makeExecutableSchema } = require('graphql-tools')
 const typeDefs = importSchema(__dirname + '/schema.graphql');
 //const typeDefs = importSchema('./server/schema.graphql');
 
-const MONGO_URI= 'mongodb+srv://user1:RjOpupDHlf8xw6oe@cluster0-gknq4.gcp.mongodb.net/meetupclone?retryWrites=true&w=majority'
+const MONGO_URI= 'mongodb+srv://user1:RjOpupDHlf8xw6oe@cluster0-gknq4.gcp.mongodb.net/tinderclone?retryWrites=true&w=majority'
 
 mongoose.connect(MONGO_URI, {useNewUrlParser:true, useUnifiedTopology:true});
 
