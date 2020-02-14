@@ -34,9 +34,10 @@ type Message {
 }
 
 type User {
-        _id: ID
-        name: Name
+        _id: ID!
+        name: Name!
         email: String
+        description: String!
         password: String
         age: Int!
         age_range: AgeRange
@@ -96,6 +97,7 @@ input UserAdd{
         name: NameInput!
         email: String!
         password: String!
+        description: String
         age: Int!
         age_range: AgeRangeInput # datos requeridos para crear un usuario
         sex: GENDER! 
@@ -106,6 +108,7 @@ input UserAdd{
 input UserUpdate {
         name: NameUpdate
         email: String
+        description: String
         password: String
         age: Int
         age_range: AgeRangeInput
