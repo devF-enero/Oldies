@@ -4,7 +4,7 @@ scalar Upload
 type Query {
         allUsers(is_active:Boolean, gender:GENDER): [User]! 
         getOneUser(id:ID, email:String): User 
-        getPossibleMatchUsers(id:ID):[User]! @auth
+        getPossibleMatchUsers(id:ID):[User]!
         getAllMatches(id:ID): [User]! @auth
         allInterests: [Interest]! 
         getOneInterest(id:ID!): Interest 
