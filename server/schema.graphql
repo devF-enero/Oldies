@@ -1,10 +1,11 @@
 directive @auth on FIELD_DEFINITION | FIELD # en la deficinicion de un nuevo campo
+scalar Upload
 
 type Query {
         allUsers(is_active:Boolean, gender:GENDER): [User]! 
         getOneUser(id:ID, email:String): User 
-        getPossibleMatchUsers(id:ID):[User]! 
-        getAllMatches(id:ID): [User]! 
+        getPossibleMatchUsers(id:ID):[User]! @auth
+        getAllMatches(id:ID): [User]! @auth
         allInterests: [Interest]! 
         getOneInterest(id:ID!): Interest 
         getUsersbyAnyInterests(id:ID, interests:[ID!]): [User]!
@@ -16,10 +17,10 @@ type Query {
 type Mutation {
         newUser(data:UserAdd!): User
         login(email:String!,password:String!):Auth
-        updateUser(data:UserUpdate!,id:ID!):User 
-        deleteUser:Message 
-        processUserLikes(id:ID, userLiked:ID!): User 
-        processUserRejections(id:ID, userRejected:ID!): User 
+        updateUser(data:UserUpdate!,id:ID!):User @auth
+        deleteUser:Message @auth
+        processUserLikes(id:ID, userLiked:ID!): User @auth
+        processUserRejections(id:ID, userRejected:ID!): User @auth
 }
 
 type Auth {
@@ -33,8 +34,8 @@ type Message {
 }
 
 type User {
-        _id: ID!
-        name: Name!
+        _id: ID
+        name: Name
         email: String
         password: String
         age: Int!
@@ -99,7 +100,7 @@ input UserAdd{
         age_range: AgeRangeInput # datos requeridos para crear un usuario
         sex: GENDER! 
         interested_in: [GENDER]!
-        photo: String
+        photo: Upload
 }
 
 input UserUpdate {
@@ -110,7 +111,7 @@ input UserUpdate {
         age_range: AgeRangeInput
         sex: GENDER # all caps because it's an ENUM
         interested_in:[GENDER]
-        photo: String
+        photo: Upload
         is_active: Boolean
 }
 

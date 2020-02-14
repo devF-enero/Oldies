@@ -24,7 +24,7 @@ const getAllMatches = async(root, args, context, info) => {
 	const id = context.user ? context.user._id : args.id;
 	if (id) {
 		const user = await getMatchesByID(id);
-		return user.matches
+		return Array.from(new Set(user))
 	} 
 	throw Error ("You must be logged in to see your matches")
 }
