@@ -20,7 +20,7 @@ const UserSchema = new Schema ({
 	sex: {
 		type: String,
 		enum: ['M','F','TW','TM','N']
-    },
+    }, // male, female, trans woman, trans man, non-binary
     interested_in: {
         type: [String],
 		enum: ['M','F','TW','TM','N','A']

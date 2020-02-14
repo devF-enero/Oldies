@@ -31,7 +31,7 @@ const getAllMatches = async(root, args, context, info) => {
 
 const getPossibleMatchUsers = async(root, args, context, info) => {
 	const thisUser = context.user ? context.user : await getUserByID(args.id);
-	if (!thisUser) throw Error ("You must be logged in to see more possible matches");
+	//if (!thisUser) throw Error ("You must be logged in to see more possible matches");
 
 	const seenUsers = [...thisUser.rejects, ...thisUser.likes];
 	const range = thisUser.age_range;
@@ -55,3 +55,15 @@ module.exports = {
 	getOneUser,
 	getAllMatches
 }
+
+/*
+{
+  getPossibleMatchUsers(id:"5e34f127ce2782152c796a5a"){
+ 	_id 
+  email
+  age
+  sex
+  interested_in
+	}
+}
+*/

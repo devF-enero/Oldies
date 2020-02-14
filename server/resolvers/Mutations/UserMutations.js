@@ -76,7 +76,7 @@ sample mutation request:
 mutation createUser($Userdata:UserAdd!){
   newUser(data:$Userdata){
     _id
-  	name {first,last}
+  	name {first,middle,last}
     password
     age
     age_range {min, max}
@@ -98,6 +98,48 @@ query variables:
     "interested_in": "F"
   }
 }
+
+{
+  "Userdata": {
+    "email": "yidah@gmail.com",
+		"name": {"first": "yidah", "last": "rodriguez"},
+    "age": 25,
+    "age_range": {"min": 22, "max": 35},
+    "password": "123456",
+    "sex": "M",
+    "interested_in": ["F",]
+  }
+}
+
+{
+  "Userdata": {
+    "email": "alex@gmail.com",
+		"name": {"first": "alex", "last": "santiago"},
+    "age": 40,
+    "age_range": {"min": 30, "max": 35},
+    "password": "123456",
+    "sex": "M",
+    "interested_in": ["F","TW","N"]
+  }
+}
+
+{
+  "Userdata": {
+    "email": "adrian@gmail.com",
+		"name": {"first": "adrian", "last": "fernandez"},
+    "age": 30,
+    "age_range": {"min": 18, "max": 50},
+    "password": "123456",
+    "sex": "M",
+    "interested_in": ["A"]
+  }
+}
+
+create account (register)
+login
+logout
+user cards (reject, like, (love))
+my matches (button for chat)
 */
 
 /*
@@ -126,6 +168,76 @@ response:
 */
 
 /*
+
+{
+  "data": {
+    "newUser": {
+      "_id": "5e45fd8d99014b2600fd40e0",
+      "name": {
+        "first": "adrian",
+        "middle": null,
+        "last": "fernandez"
+      },
+      "password": "$2b$10$Vi9UN2w7UTy139gAwQk66ewgaazdSIA7X8oUv5HTn9Ju/h7IroMHq",
+      "age": 30,
+      "age_range": {
+        "min": 18,
+        "max": 50
+      },
+      "sex": "M",
+      "interested_in": [
+        "A"
+      ]
+    }
+  }
+}
+
+{
+  "data": {
+    "newUser": {
+      "_id": "5e45fdc699014b2600fd40e1",
+      "name": {
+        "first": "gabriel",
+        "middle": null,
+        "last": "perez"
+      },
+      "password": "$2b$10$4PpeBMn5d4hCXD13Lco2PuFHfGwD6l81CGmOLzBcmZL6nzKMxt2BC",
+      "age": 25,
+      "age_range": {
+        "min": 18,
+        "max": 50
+      },
+      "sex": "M",
+      "interested_in": [
+        "F"
+      ]
+    }
+  }
+}
+
+{
+  "data": {
+    "newUser": {
+      "_id": "5e45fe19d97c7d3518255d79",
+      "name": {
+        "first": "yidah",
+        "middle": null,
+        "last": "curiel"
+      },
+      "password": "$2b$10$wplqItVuIxDYV6F8cL.zReirZ9hqFJvL.sIiWJVg9Ip84xO4WREYS",
+      "age": 25,
+      "age_range": {
+        "min": 22,
+        "max": 40
+      },
+      "sex": "F",
+      "interested_in": [
+        "A"
+      ]
+    }
+  }
+}
+
 {
         "_id": "5e34f127ce2782152c796a5a",
         "email": "edwin2@devf.mx",
