@@ -20,6 +20,9 @@ mongo.on('error', (error) => console.log(error)).once('open',()=>console.log('Co
 const schema = makeExecutableSchema({
     typeDefs, 
     resolvers,
+    cors: {
+        origin: "localhost:3000"
+    },
     schemaDirectives:{
         auth:AuthDirective // pasando la directiva a Apollo para que se pueda usar en el schema.graphql (auth is the label we have given it)
     },
