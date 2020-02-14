@@ -15,13 +15,13 @@ const getOneUser = (root, args, context, info) => {
 	} else if (args.id) {
 		return getUserByID(args.id)
 	} else if (context.user._id) {
-	    return getUserByID(getUserByID)
+	    return getUserByID(context.user._id)
 	}
 	throw Error ("An email or ID is required")
 }
 
 const getAllMatches = async(root, args, context, info) => {
-	const id = context.user._id ? context.user._id : args.id;
+	const id = context.user ? context.user._id : args.id;
 	if (id) {
 		const user = await getMatchesByID(id);
 		return user.matches
@@ -33,7 +33,7 @@ const getPossibleMatchUsers = async(root, args, context, info) => {
 	const thisUser = context.user ? context.user : await getUserByID(args.id);
 	//if (!thisUser) throw Error ("You must be logged in to see more possible matches");
 
-	const seenUsers = [...thisUser.rejects, ...thisUser.likes];
+	const seenUsers = [...thisUser.rejects, ...thisUser.likes, thisUser];
 	const range = thisUser.age_range;
 
 	if (thisUser.interested_in.includes('A')){
